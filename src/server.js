@@ -10,7 +10,7 @@ const typeDefs = `
   }
   
   type Query {
-    todos: [Todo],
+    todos(withError: Boolean): [Todo],
     todo(id: ID): Todo
   }
   
@@ -37,8 +37,10 @@ const todos = [
 
 const resolvers = {
     Query: {
-        todos() {
-            return todos;
+        todos(o, {withError}) {
+            return withError
+                ? new Error('"withError" set to "true"')
+                : todos;
         },
         todo(o, {id}) {
             return todos.find(todo => todo.id === id);

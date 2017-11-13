@@ -43,12 +43,21 @@ class TodoForm extends Component {
     }
 }
 
-const TodoFormWithMutation = graphql(todoMutate)(TodoForm);
+const TodoFormWithMutation = graphql(todoMutate, {
+    options(props) {
+        return {
+            variables: {
+                withError: props.withError
+            }
+        }
+
+    }
+})(TodoForm);
 
 class App extends Component {
     constructor(...args) {
         super(...args);
-        this.state = {};
+        this.state = {withError: false};
     }
     render() {
         return (
@@ -58,6 +67,11 @@ class App extends Component {
                     <h1 className="App-title">Welcome to React</h1>
                 </header>
                 <div className="App-intro">
+                    {
+                        this.state.withError
+                            ? <button onClick={() => this.setState({withError: false})}>Request without error</button>
+                            : <button onClick={() => this.setState({withError: true})}>Request with error</button>
+                    }
                     {
                         this.state.unmountTodosOnEdit
                             ? <button onClick={() => this.setState({unmountTodosOnEdit: false})}>Dont unmount todos on edit</button>
@@ -71,7 +85,7 @@ class App extends Component {
                     {
                         this.state.unmountTodosOnEdit && this.state.editTodo
                             ? null
-                            : <TodosWithData onEdit={(todo) => this.setState({editTodo: todo})}/>
+                            : <TodosWithData withError={this.state.withError} onEdit={(todo) => this.setState({editTodo: todo})}/>
                     }
                 </div>
             </div>

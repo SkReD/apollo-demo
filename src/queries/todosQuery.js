@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
 export const todosQuery = gql`
-    query {
-        todos {
-            id
+    query Todos($withError: Boolean) {
+        todos(withError: $withError) {
+            id,
             name
         }
     }
