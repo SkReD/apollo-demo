@@ -67,20 +67,16 @@ class App extends Component {
                     <h1 className="App-title">Welcome to React</h1>
                 </header>
                 <div className="App-intro">
+                    <button onClick={() => this.setState({withError: !this.state.withError})}>
+                        {this.state.withError ? 'Request without error' : 'Request with error'}
+                    </button>
+                    <button onClick={() => this.setState({rerender: !this.state.rerender})}>Rerender</button>
+                    <button onClick={() => this.setState({unmountTodosOnEdit: !this.state.unmountTodosOnEdit})}>
+                        {this.state.unmountTodosOnEdit ? 'Dont unmount todos on edit' : 'Unmount todos on edit'}
+                    </button>
                     {
-                        this.state.withError
-                            ? <button onClick={() => this.setState({withError: false})}>Request without error</button>
-                            : <button onClick={() => this.setState({withError: true})}>Request with error</button>
-                    }
-                    {
-                        this.state.unmountTodosOnEdit
-                            ? <button onClick={() => this.setState({unmountTodosOnEdit: false})}>Dont unmount todos on edit</button>
-                            : <button onClick={() => this.setState({unmountTodosOnEdit: true})}>Unmount todos on edit</button>
-                    }
-                    {
-                        this.state.editTodo
-                            ? <TodoFormWithMutation editTodo={this.state.editTodo} onSuccess={() => this.setState({editTodo: null})}/>
-                            : null
+                        this.state.editTodo &&
+                            <TodoFormWithMutation editTodo={this.state.editTodo} onSuccess={() => this.setState({editTodo: null})}/>
                     }
                     {
                         this.state.unmountTodosOnEdit && this.state.editTodo
