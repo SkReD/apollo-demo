@@ -7,6 +7,11 @@ import {todoMutate} from './queries/todoMutate';
 
 
 class Todos extends Component {
+    componentDidUpdate(prevProps) {
+        if (this.props.data.todos !== prevProps.data.todos) {
+            console.log('new data!');
+        }
+    }
     render() {
         if (this.props.data.loading) {
             return <img src={logo} className="App-logo" alt="logo"/>;
